@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppService } from './app.service';
 import { AuthResolver } from './auth/auth.resolver';
 import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { PostModule } from './post/post.module';
       sortSchema: true,
     }),
     PrismaModule,
-    AuthModule, PostModule
+    AuthModule, PostModule, CommentModule
   ],
   controllers: [AppController],
   providers: [AppService],

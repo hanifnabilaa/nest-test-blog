@@ -15,6 +15,20 @@ type BlogPostType {
   title: String!
 }
 
+type CommentType {
+  blog_post_id: String!
+  comment: String!
+  createdAt: DateTime!
+  id: ID!
+  parentId: String
+}
+
+input CreateCommentInput {
+  blog_post_id: String!
+  comment: String!
+  parentId: String
+}
+
 input CreatePostInput {
   content: String!
   title: String!
@@ -31,7 +45,9 @@ input LoginInput {
 }
 
 type Mutation {
+  addComment(input: CreateCommentInput!): CommentType!
   createPost(input: CreatePostInput!): BlogPostType!
+  deletePost(id: ID!): ID!
   login(input: LoginInput!): AuthResponse!
   register(input: RegisterInput!): AuthResponse!
   updatePost(input: UpdatePostInput!): BlogPostType!

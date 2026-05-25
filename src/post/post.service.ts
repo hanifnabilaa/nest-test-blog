@@ -43,4 +43,17 @@ export class PostService {
             throw new UnauthorizedException('Gagal update: Postingan tidak ditemukan atau Anda bukan pemiliknya');
         }
     }
+
+    async delete(id: string, author_id: string) {
+        try {
+            return await this.prisma.blogPost.delete({
+                where: {
+                    id: id,
+                    author_id: author_id,
+                },
+            });
+        } catch (error) {
+            throw new UnauthorizedException('Gagal menghapus: Postingan tidak ditemukan atau Anda tidak memiliki');
+        }
+    }
 }

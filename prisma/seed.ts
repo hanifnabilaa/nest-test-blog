@@ -12,7 +12,7 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
     console.log('Sedang membuat 1000 data...')
 
-    const author_id = '3c3a0252-3c74-4fce-ab6b-89b93e015c29';
+    const author_id = 'e556f6af-fe06-40a6-a57e-fcc78a9c74ff';
     const posts = Array.from({ length: 1000 }, (_, i) => ({
         title: `Postingan Testing Ke-${i + 1}`,
         content: `Ini adalah konten untuk postingan nomor ${i + 1}.`,
