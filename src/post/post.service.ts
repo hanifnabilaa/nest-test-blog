@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { CreatePostInput } from "./dto/post.dto";
+import { CreatePostInput, UpdatePostInput } from "./dto/post.dto";
 
 @Injectable()
 export class PostService {
@@ -25,5 +25,22 @@ export class PostService {
                 createdAt: 'desc'
             },
         })
+    }
+
+    async update(input: UpdatePostInput, author_id: string) {
+        try {
+            return await this.prisma.blogPost.update({
+                where: {
+                    id: input.id,
+                    author_id: author_id
+                },
+                data: {
+                    ...(input.title && { title: input.title }),
+                    ...(input.content && { content: input.content })
+                },
+            });
+        } catch (error) {
+            throw new UnauthorizedException('Gagal update: Postingan tidak ditemukan atau Anda bukan pemiliknya');
+        }
     }
 }

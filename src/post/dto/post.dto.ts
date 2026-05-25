@@ -27,3 +27,14 @@ export class CreatePostInput {
     content: string;
 }
 
+@InputType()
+export class UpdatePostInput {
+    @Field(() => ID)
+    id: string;
+
+    @Field(() => String, { nullable: true })
+    title?: string;
+
+    @Field(() => String, { nullable: true })
+    content?: string;
+}

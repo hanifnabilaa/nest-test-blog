@@ -1,5 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { BlogPostType, CreatePostInput } from "./dto/post.dto";
+import { BlogPostType, CreatePostInput, UpdatePostInput } from "./dto/post.dto";
 import { PostService } from "./post.service";
 import { UseGuards } from "@nestjs/common";
 import { GqlAuthGuard } from "src/auth/gql-auth.guard";
@@ -24,5 +24,14 @@ export class PostResolver {
         @CurrentUser() user: any
     ) {
         return this.postService.create(input, user.userId);
+    }
+
+    @Mutation(() => BlogPostType)
+    @UseGuards(GqlAuthGuard)
+    async updatePost(
+        @Args('input') input: UpdatePostInput,
+        @CurrentUser() user: any,
+    ) {
+        return this.postService.update(input, user.userId)
     }
 }

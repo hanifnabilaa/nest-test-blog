@@ -34,6 +34,7 @@ type Mutation {
   createPost(input: CreatePostInput!): BlogPostType!
   login(input: LoginInput!): AuthResponse!
   register(input: RegisterInput!): AuthResponse!
+  updatePost(input: UpdatePostInput!): BlogPostType!
 }
 
 type Query {
@@ -44,6 +45,12 @@ type Query {
 input RegisterInput {
   password: String!
   username: String!
+}
+
+input UpdatePostInput {
+  content: String
+  id: ID!
+  title: String
 }
 
 type UserType {
