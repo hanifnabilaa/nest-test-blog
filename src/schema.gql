@@ -7,17 +7,37 @@ type AuthResponse {
   user: UserType!
 }
 
+type BlogPostType {
+  author_id: String!
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  title: String!
+}
+
+input CreatePostInput {
+  content: String!
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 input LoginInput {
   password: String!
   username: String!
 }
 
 type Mutation {
+  createPost(input: CreatePostInput!): BlogPostType!
   login(input: LoginInput!): AuthResponse!
   register(input: RegisterInput!): AuthResponse!
 }
 
 type Query {
+  getPosts(cursor: String, limit: Int! = 10): [BlogPostType!]!
   ping: String!
 }
 
