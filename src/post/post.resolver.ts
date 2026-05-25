@@ -1,13 +1,18 @@
-import { Args, ID, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Args, ID, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { BlogPostType, CreatePostInput, UpdatePostInput } from "./dto/post.dto";
 import { PostService } from "./post.service";
 import { UseGuards } from "@nestjs/common";
 import { GqlAuthGuard } from "src/auth/gql-auth.guard";
 import { CurrentUser } from "src/auth/current-user.decorator";
+import { CommentService } from "src/comment/comment.service";
+import { CommentType } from "src/comment/dto/comment.dto";
 
 @Resolver(() => BlogPostType)
 export class PostResolver {
-    constructor(private postService: PostService) { }
+    constructor(
+        private postService: PostService,
+        private commentservice: CommentService,
+    ) { }
 
     @Query(() => [BlogPostType])
     async getPosts(
@@ -43,5 +48,10 @@ export class PostResolver {
     ) {
         const deletePost = await this.postService.delete(id, user.userId);
         return deletePost.id;
+    }
+
+    @ResolveField('comments', () => [CommentType])
+    async getComments(@Parent() post: BlogPostType) {
+        return this.commentservice.findByPost(post.id)
     }
 }

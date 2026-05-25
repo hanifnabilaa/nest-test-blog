@@ -12,7 +12,10 @@ export class CommentType {
     blog_post_id: string;
 
     @Field({ nullable: true })
-    parentId?: string;
+    parent_id?: string;
+
+    @Field()
+    author_id: string;
 
     @Field()
     createdAt: Date;
@@ -28,4 +31,13 @@ export class CreateCommentInput {
 
     @Field({ nullable: true })
     parentId?: string;
+}
+
+@InputType()
+export class UpdateCommentInput {
+    @Field(() => ID)
+    id: string;
+
+    @Field() // Tanpa { nullable: true }, ini wajib diisi
+    content: string;
 }

@@ -9,6 +9,7 @@ type AuthResponse {
 
 type BlogPostType {
   author_id: String!
+  comments: [CommentType!]!
   content: String!
   createdAt: DateTime!
   id: ID!
@@ -16,11 +17,13 @@ type BlogPostType {
 }
 
 type CommentType {
+  author_id: String!
   blog_post_id: String!
   comment: String!
   createdAt: DateTime!
   id: ID!
-  parentId: String
+  parent_id: String
+  replies: [CommentType!]!
 }
 
 input CreateCommentInput {
@@ -47,13 +50,16 @@ input LoginInput {
 type Mutation {
   addComment(input: CreateCommentInput!): CommentType!
   createPost(input: CreatePostInput!): BlogPostType!
+  deleteComment(id: ID!): String!
   deletePost(id: ID!): ID!
   login(input: LoginInput!): AuthResponse!
   register(input: RegisterInput!): AuthResponse!
+  updateComment(input: UpdateCommentInput!): CommentType!
   updatePost(input: UpdatePostInput!): BlogPostType!
 }
 
 type Query {
+  getComments(blog_post_id: ID!): [CommentType!]!
   getPosts(cursor: String, limit: Int! = 10): [BlogPostType!]!
   ping: String!
 }
@@ -61,6 +67,11 @@ type Query {
 input RegisterInput {
   password: String!
   username: String!
+}
+
+input UpdateCommentInput {
+  content: String!
+  id: ID!
 }
 
 input UpdatePostInput {
