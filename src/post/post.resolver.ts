@@ -6,12 +6,15 @@ import { GqlAuthGuard } from "src/auth/gql-auth.guard";
 import { CurrentUser } from "src/auth/current-user.decorator";
 import { CommentService } from "src/comment/comment.service";
 import { CommentType } from "src/comment/dto/comment.dto";
+import { UserType } from "src/auth/dto/auth.type";
+import { AuthService } from "src/auth/auth.service";
 
 @Resolver(() => BlogPostType)
 export class PostResolver {
     constructor(
         private postService: PostService,
         private commentservice: CommentService,
+        private authService: AuthService,
     ) { }
 
     @Query(() => [BlogPostType])
@@ -53,5 +56,10 @@ export class PostResolver {
     @ResolveField('comments', () => [CommentType])
     async getComments(@Parent() post: BlogPostType) {
         return this.commentservice.findByPost(post.id)
+    }
+
+    @ResolveField('author', () => UserType)
+    async getAuthor(@Parent() post: BlogPostType) {
+        return this.authService.getUserById(post.author_id)
     }
 }

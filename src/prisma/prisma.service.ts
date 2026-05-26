@@ -15,6 +15,6 @@ export class PrismaService extends PrismaClient {
         super({ adapter });
 
         // Ganti console.log ini untuk memastikan
-        console.log("DATABASE_URL:", process.env.DATABASE_URL);
+        // console.log("DATABASE_URL:", process.env.DATABASE_URL);
     }
 }

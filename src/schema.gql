@@ -8,6 +8,7 @@ type AuthResponse {
 }
 
 type BlogPostType {
+  author: UserType!
   author_id: String!
   comments: [CommentType!]!
   content: String!

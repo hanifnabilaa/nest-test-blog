@@ -52,4 +52,7 @@ export class AuthService {
             user
         };
     }
+    async getUserById(id: string) {
+        return this.prisma.user.findUnique({ where: { id: id } })
+    }
 }
